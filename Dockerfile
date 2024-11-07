@@ -51,7 +51,9 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fSL 'http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz' -o ioncube.tar.gz \
+RUN apt-get update && apt-get install -y wget
+
+RUN wget -q 'http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz' -O ioncube.tar.gz \
     && mkdir -p ioncube \
     && tar -xf ioncube.tar.gz -C ioncube --strip-components=1 \
     && rm ioncube.tar.gz \
@@ -59,7 +61,7 @@ RUN curl -fSL 'http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_li
     && rm -r ioncube
 
 # composer
-RUN curl -S https://getcomposer.org/installer | php \
+RUN wget -q -O - https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update
 
