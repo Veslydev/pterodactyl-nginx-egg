@@ -51,11 +51,12 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
-    && tar -zxvf ioncube_loaders_lin_x86* \
+    RUN wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar -zxvf ioncube_loaders_lin_x86-64.tar.gz \
     && cp ioncube/ioncube_loader_lin_${PHP_VERSION}.so /usr/lib/php/20190902/ \
+    && echo "zend_extension = /usr/lib/php/20190902/ioncube_loader_lin_${PHP_VERSION}.so" >> /etc/php/${PHP_VERSION}/cli/php.ini \
     && echo "zend_extension = /usr/lib/php/20190902/ioncube_loader_lin_${PHP_VERSION}.so" >> /etc/php/${PHP_VERSION}/fpm/php.ini \
-    && rm -rf ioncube_loaders_lin_x86*
+    && rm -rf ioncube_loaders_lin_x86-64.tar.gz ioncube
 
 
 RUN useradd -m -d /home/container/ -s /bin/bash container
