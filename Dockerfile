@@ -57,14 +57,13 @@ RUN wget -q 'http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_
     && mkdir -p ioncube \
     && tar -xf ioncube.tar.gz -C ioncube --strip-components=1 \
     && rm ioncube.tar.gz \
-    && mv ioncube/ioncube_loader_lin_7.4.so /var/www/ioncube_loader_lin_7.4.so \
+    && mv ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so \
     && rm -r ioncube
 
 # composer
 RUN wget -q -O - https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update
-
 
 RUN useradd -m -d /home/container/ -s /bin/bash container
 ENV USER=container HOME=/home/container
