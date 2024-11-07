@@ -48,6 +48,7 @@ RUN apt-get update \
         php${PHP_VERSION}-pcov \
         php${PHP_VERSION}-pgsql \
         php${PHP_VERSION}-Phar \
+        php${PHP_VERSION}-zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
