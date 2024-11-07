@@ -6,14 +6,11 @@
     },
     "exported_at": "2024-10-08T17:00:42+02:00",
     "name": "Nginx",
-    "author": "YmoT@tuta.com",
+    "author": "vesly@vesly.dev",
     "description": "NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP\/POP3 proxy server. NGINX is known for its high performance, stability, rich feature set, simple configuration, and low resource consumption.",
     "features": null,
     "docker_images": {
-        "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.3-latest": "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.3-latest",
-        "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.2-latest": "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.2-latest",
-        "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.1-latest": "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.1-latest",
-        "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.0-latest": "ghcr.io\/ym0t\/pterodactyl-nginx-egg:8.0-latest"
+        "ghcr.io\/veslydev\/pterodactyl-nginx-egg:7.4-latest": "ghcr.io\/veslydev\/pterodactyl-nginx-egg:7.4-latest"
     },
     "file_denylist": [],
     "startup": "if [ {{GIT_UPDATE}} == 1 ]; then {{STARTUP_COMMAND_GIT}}; fi; echo \"{{PHP_VERSION}}\" > \"php_version.txt\"; {{STARTUP_COMMAND}};",
