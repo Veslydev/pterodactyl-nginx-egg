@@ -1,14 +1,14 @@
 FROM debian:bookworm-slim
 
-LABEL author="Ym0t" maintainer="YmoT@tuta.com"
+LABEL author="Veslys" maintainer="vesly@vesly.dev"
 
-ARG PHP_VERSION="8.3"
+ARG PHP_VERSION="7.4"
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y git apt-transport-https lsb-release ca-certificates wget nginx \
+    && apt-get install -y git apt-transport-https lsb-release ca-certificates wget \
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
     && apt-get update \
@@ -48,31 +48,15 @@ RUN apt-get update \
         php${PHP_VERSION}-pcov \
         php${PHP_VERSION}-pgsql \
         php${PHP_VERSION}-Phar \
-        php${PHP_VERSION}-posix \
-        php${PHP_VERSION}-ps \
-        php${PHP_VERSION}-pspell \
-        php${PHP_VERSION}-readline \
-        php${PHP_VERSION}-shmop \
-        php${PHP_VERSION}-SimpleXML \
-        php${PHP_VERSION}-soap \
-        php${PHP_VERSION}-sockets \
-        php${PHP_VERSION}-sqlite3 \
-        php${PHP_VERSION}-sysvmsg \
-        php${PHP_VERSION}-sysvsem \
-        php${PHP_VERSION}-sysvshm \
-        php${PHP_VERSION}-tokenizer \
-        php${PHP_VERSION}-xmlreader \
-        php${PHP_VERSION}-xmlwriter \
-        php${PHP_VERSION}-xsl \
-        php${PHP_VERSION}-zip \
-        php${PHP_VERSION}-mailparse \
-        php${PHP_VERSION}-memcached \
-        php${PHP_VERSION}-inotify \
-        php${PHP_VERSION}-maxminddb \
-        php${PHP_VERSION}-protobuf \
-        php${PHP_VERSION}-OPcache \
-    && apt-get purge -y --auto-remove \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar -zxvf ioncube_loaders_lin_x86* \
+    && cp ioncube/ioncube_loader_lin_${PHP_VERSION}.so /usr/lib/php/20190902/ \
+    && echo "zend_extension = /usr/lib/php/20190902/ioncube_loader_lin_${PHP_VERSION}.so" >> /etc/php/${PHP_VERSION}/fpm/php.ini \
+    && rm -rf ioncube_loaders_lin_x86*
+
 
 RUN useradd -m -d /home/container/ -s /bin/bash container
 ENV USER=container HOME=/home/container
