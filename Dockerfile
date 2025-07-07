@@ -12,7 +12,7 @@ RUN apt-get update \
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
     && apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends ffmpeg inotify-tools \
         php${PHP_VERSION} \
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-cli \
