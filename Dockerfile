@@ -57,9 +57,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-imagick \
         php${PHP_VERSION}-mbstring \
         php${PHP_VERSION}-mcrypt \
-        php${PHP_VERSION}-fileinfo \
-        php${PHP_VERSION}-hash \
-        php${PHP_VERSION}-json \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP XML extensions
@@ -74,11 +71,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install PHP additional extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-gd \
-        php${PHP_VERSION}-openssl \
-        php${PHP_VERSION}-session \
         php${PHP_VERSION}-tokenizer \
-        php${PHP_VERSION}-ctype \
-        php${PHP_VERSION}-filter \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
