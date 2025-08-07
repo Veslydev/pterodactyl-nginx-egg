@@ -73,7 +73,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-gd \
         php${PHP_VERSION}-tokenizer \
         php${PHP_VERSION}-fileinfo \
-        php${PHP_VERSION}-hash \
         php${PHP_VERSION}-json \
     && rm -rf /var/lib/apt/lists/*
 
