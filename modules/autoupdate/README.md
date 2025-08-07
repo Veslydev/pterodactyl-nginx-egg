@@ -43,7 +43,7 @@ The auto-update module only updates specific directories and files to maintain s
 ## How It Works
 
 1. **Version Check**: Reads current version from `/home/container/version.txt`
-2. **API Query**: Fetches latest version from `https://api.tavuru.de/version/Ym0T/pterodactyl-nginx-egg`
+2. **API Query**: Fetches latest version from `https://api.tavuru.de/version/Veslydev/pterodactyl-nginx-egg`
 3. **Comparison**: Compares current vs latest version
 4. **Diff Download**: If update available, downloads differential update package
 5. **Selective Apply**: Applies only changes to allowed directories/files
@@ -55,12 +55,12 @@ This module uses the **Tavuru API** for version management:
 
 ### Version API
 ```bash
-GET https://api.tavuru.de/version/Ym0T/pterodactyl-nginx-egg
+GET https://api.tavuru.de/version/Veslydev/pterodactyl-nginx-egg
 ```
 
 ### Diff API
 ```bash
-GET https://api.tavuru.de/diff/Ym0T/pterodactyl-nginx-egg/{from}/{to}?zip=true
+GET https://api.tavuru.de/diff/Veslydev/pterodactyl-nginx-egg/{from}/{to}?zip=true
 ```
 
 ## Update Behavior

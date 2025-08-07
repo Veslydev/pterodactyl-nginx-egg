@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-LABEL author="Ym0t" maintainer="YmoT@tuta.com"
+LABEL author="YmoT" maintainer="YmoT@tuta.com"
 
 ARG PHP_VERSION
 
@@ -87,6 +87,9 @@ RUN apt-get update && apt-get install -y \
         php${PHP_VERSION}-protobuf \
         php${PHP_VERSION}-opcache \
         php${PHP_VERSION}-dev \
+        php${PHP_VERSION}-mcrypt \
+        php${PHP_VERSION}-hash \
+        php${PHP_VERSION}-json \
     && wget -q -O /tmp/composer.phar https://getcomposer.org/download/latest-stable/composer.phar \
     && SHA256=$(wget -q -O - https://getcomposer.org/download/latest-stable/composer.phar.sha256) \
     && echo "$SHA256 /tmp/composer.phar" | sha256sum -c - \
