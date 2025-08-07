@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
         wget \
         nginx \
         unzip \
+        p7zip-full \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Cloudflared

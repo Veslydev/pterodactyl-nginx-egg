@@ -120,8 +120,11 @@ fi
 # Install Minexon by default
 echo "[SETUP] Install Minexon"
 cd /mnt/server/www
-wget -q https://api.minexon.net/installer/files/minexon-latest.zip > /dev/null 2>&1 || { echo "[SETUP] Error: Downloading Minexon failed."; exit 17; }
-unzip -q minexon-latest.zip || { echo "[SETUP] Error: Extracting Minexon failed."; exit 18; }
+echo "[SETUP] Downloading Minexon from https://api.minexon.net/installer/files/minexon-latest.zip"
+wget https://api.minexon.net/installer/files/minexon-latest.zip || { echo "[SETUP] Error: Downloading Minexon failed."; exit 17; }
+echo "[SETUP] Extracting Minexon archive using 7zip (faster extraction)"
+7z x minexon-latest.zip -y || { echo "[SETUP] Error: Extracting Minexon failed."; exit 18; }
+echo "[SETUP] Cleaning up archive file"
 rm -f minexon-latest.zip
 echo "[SETUP] Minexon installed successfully"
 
