@@ -72,7 +72,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-gd \
         php${PHP_VERSION}-tokenizer \
+        php${PHP_VERSION}-fileinfo \
+        php${PHP_VERSION}-hash \
+        php${PHP_VERSION}-json \
     && rm -rf /var/lib/apt/lists/*
+
+# MariaDB removed - using external database connection
 
 # Install Composer
 RUN wget -q -O /tmp/composer.phar https://getcomposer.org/download/latest-stable/composer.phar \
@@ -99,6 +104,10 @@ RUN set -eux; \
     echo "zend_extension=${PHP_EXT_DIR}/ioncube_loader_lin_${PHP_MAJOR_VERSION}.so" > /etc/php/${PHP_VERSION}/cli/conf.d/00-ioncube.ini; \
     echo "zend_extension=${PHP_EXT_DIR}/ioncube_loader_lin_${PHP_MAJOR_VERSION}.so" > /etc/php/${PHP_VERSION}/fpm/conf.d/00-ioncube.ini; \
     rm -rf /tmp/ioncube*
+
+# Copy configuration files
+COPY ./nginx /etc/nginx
+COPY ./php /etc/php/${PHP_VERSION}
 
 # Create user and set environment variables
 RUN useradd -m -d /home/container/ -s /bin/bash container \

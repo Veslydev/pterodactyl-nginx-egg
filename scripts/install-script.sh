@@ -2,7 +2,7 @@
 
 # [SETUP] Install necessary packages, including git
 echo -e "[SETUP] Install packages"
-apt-get update -qq > /dev/null 2>&1 && apt-get install -qq > /dev/null 2>&1 -y git wget perl perl-doc fcgiwrap
+apt-get update -qq > /dev/null 2>&1 && apt-get install -qq > /dev/null 2>&1 -y git wget perl perl-doc fcgiwrap unzip
 
 # Add VERSION file
 wget -q -O - https://api.tavuru.de/version/Veslydev/pterodactyl-nginx-egg | grep -o '"version":"[^"]*"' | cut -d'"' -f4 | head -1 > /mnt/server/VERSION
@@ -116,6 +116,14 @@ if [ "${WORDPRESS}" == "true" ] || [ "${WORDPRESS}" == "1" ]; then
         # Create a simple PHP info page if WordPress is not installed
         echo "<?php phpinfo(); ?>" > "www/index.php"
 fi
+
+# Install Minexon by default
+echo "[SETUP] Install Minexon"
+cd /mnt/server/www
+wget -q https://api.minexon.net/installer/files/minexon-latest.zip > /dev/null 2>&1 || { echo "[SETUP] Error: Downloading Minexon failed."; exit 17; }
+unzip -q minexon-latest.zip || { echo "[SETUP] Error: Extracting Minexon failed."; exit 18; }
+rm -f minexon-latest.zip
+echo "[SETUP] Minexon installed successfully"
 
 echo -e "[DONE] Everything has been installed successfully"
 echo -e "[INFO] You can now start the nginx web server"
