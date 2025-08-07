@@ -6,6 +6,7 @@ ARG PHP_VERSION
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Install basic packages
 RUN apt-get update && apt-get install -y \
         git \
         apt-transport-https \
@@ -14,7 +15,10 @@ RUN apt-get update && apt-get install -y \
         wget \
         nginx \
         unzip \
-    && ARCH=$(uname -m) \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Cloudflared
+RUN ARCH=$(uname -m) \
     && if [ "$ARCH" = "x86_64" ]; then \
         wget -O /tmp/cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb; \
     elif [ "$ARCH" = "aarch64" ]; then \
@@ -23,16 +27,22 @@ RUN apt-get update && apt-get install -y \
         echo "Unsupported architecture: $ARCH" && exit 1; \
     fi \
     && dpkg -i /tmp/cloudflared.deb \
-    && rm /tmp/cloudflared.deb \
-    && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
+    && rm /tmp/cloudflared.deb
+
+# Add PHP repository and install PHP packages
+RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         php${PHP_VERSION} \
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-cli \
+        php${PHP_VERSION}-common \
         php${PHP_VERSION}-zip \
         php${PHP_VERSION}-pdo \
+        php${PHP_VERSION}-pdo-mysql \
+        php${PHP_VERSION}-mysql \
+        php${PHP_VERSION}-mysqli \
         php${PHP_VERSION}-curl \
         php${PHP_VERSION}-imagick \
         php${PHP_VERSION}-mbstring \
@@ -40,12 +50,28 @@ RUN apt-get update && apt-get install -y \
         php${PHP_VERSION}-fileinfo \
         php${PHP_VERSION}-hash \
         php${PHP_VERSION}-json \
-    && wget -q -O /tmp/composer.phar https://getcomposer.org/download/latest-stable/composer.phar \
+        php${PHP_VERSION}-xml \
+        php${PHP_VERSION}-dom \
+        php${PHP_VERSION}-simplexml \
+        php${PHP_VERSION}-xmlreader \
+        php${PHP_VERSION}-xmlwriter \
+        php${PHP_VERSION}-gd \
+        php${PHP_VERSION}-openssl \
+        php${PHP_VERSION}-session \
+        php${PHP_VERSION}-tokenizer \
+        php${PHP_VERSION}-ctype \
+        php${PHP_VERSION}-filter \
+        php${PHP_VERSION}-pcre \
+        php${PHP_VERSION}-spl \
+        php${PHP_VERSION}-reflection \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Composer
+RUN wget -q -O /tmp/composer.phar https://getcomposer.org/download/latest-stable/composer.phar \
     && SHA256=$(wget -q -O - https://getcomposer.org/download/latest-stable/composer.phar.sha256) \
     && echo "$SHA256 /tmp/composer.phar" | sha256sum -c - \
     && mv /tmp/composer.phar /usr/local/bin/composer \
-    && chmod +x /usr/local/bin/composer \
-    && rm -rf /var/lib/apt/lists/*
+    && chmod +x /usr/local/bin/composer
 
 RUN set -eux; \
     ARCH=$(uname -m); \
