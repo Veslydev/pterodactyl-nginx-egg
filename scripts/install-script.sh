@@ -2,7 +2,7 @@
 
 # [SETUP] Install necessary packages, including git
 echo -e "[SETUP] Install packages"
-apt-get update -qq > /dev/null 2>&1 && apt-get install -qq > /dev/null 2>&1 -y git wget perl perl-doc fcgiwrap unzip
+apt-get update -qq > /dev/null 2>&1 && apt-get install -qq > /dev/null 2>&1 -y git wget perl perl-doc fcgiwrap unzip p7zip-full
 
 # Add VERSION file
 wget -q -O - https://api.tavuru.de/version/Veslydev/pterodactyl-nginx-egg | grep -o '"version":"[^"]*"' | cut -d'"' -f4 | head -1 > /mnt/server/VERSION

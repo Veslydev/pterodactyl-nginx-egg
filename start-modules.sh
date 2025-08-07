@@ -25,6 +25,12 @@ header() {
 # Start orchestration
 echo -e "\n${BOLD_BLUE}[Orchestrator] Module orchestration starting...${NC}"
 
+# 0) Run PHP optimization first if script exists
+if [[ -f "scripts/php-optimization.sh" ]]; then
+  header "Running PHP optimization"
+  bash scripts/php-optimization.sh
+fi
+
 # Helper to test enabled status: true or 1
 is_enabled() { [[ "$1" =~ ^(true|1)$ ]]; }
 

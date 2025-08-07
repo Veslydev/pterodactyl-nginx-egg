@@ -41,6 +41,7 @@ RUN apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-cli \
         php${PHP_VERSION}-common \
+        php${PHP_VERSION}-mysqlnd \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP database extensions
@@ -57,7 +58,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-curl \
         php${PHP_VERSION}-imagick \
         php${PHP_VERSION}-mbstring \
-        php${PHP_VERSION}-mcrypt \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP XML extensions
@@ -108,11 +108,18 @@ RUN set -eux; \
 # Copy configuration files
 COPY ./nginx /etc/nginx
 COPY ./php /etc/php/${PHP_VERSION}
+COPY ./scripts /home/container/scripts
+
+# Make scripts executable
+RUN chmod +x /home/container/scripts/*.sh
 
 # Create user and set environment variables
 RUN useradd -m -d /home/container/ -s /bin/bash container \
     && echo "USER=container" >> /etc/environment \
-    && echo "HOME=/home/container" >> /etc/environment
+    && echo "HOME=/home/container" >> /etc/environment \
+    && mkdir -p /home/container/logs \
+    && mkdir -p /home/container/tmp \
+    && chown -R container:container /home/container
 
 WORKDIR /home/container
 
