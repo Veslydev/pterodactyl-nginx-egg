@@ -29,20 +29,30 @@ RUN ARCH=$(uname -m) \
     && dpkg -i /tmp/cloudflared.deb \
     && rm /tmp/cloudflared.deb
 
-# Add PHP repository and install PHP packages
+# Add PHP repository
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && apt-get update
+
+# Install PHP core packages
+RUN apt-get install -y --no-install-recommends \
         php${PHP_VERSION} \
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-cli \
         php${PHP_VERSION}-common \
-        php${PHP_VERSION}-zip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP database extensions
+RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-pdo \
         php${PHP_VERSION}-pdo-mysql \
         php${PHP_VERSION}-mysql \
         php${PHP_VERSION}-mysqli \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP essential extensions
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        php${PHP_VERSION}-zip \
         php${PHP_VERSION}-curl \
         php${PHP_VERSION}-imagick \
         php${PHP_VERSION}-mbstring \
@@ -50,20 +60,25 @@ RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
         php${PHP_VERSION}-fileinfo \
         php${PHP_VERSION}-hash \
         php${PHP_VERSION}-json \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP XML extensions
+RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-xml \
         php${PHP_VERSION}-dom \
         php${PHP_VERSION}-simplexml \
         php${PHP_VERSION}-xmlreader \
         php${PHP_VERSION}-xmlwriter \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP additional extensions
+RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-gd \
         php${PHP_VERSION}-openssl \
         php${PHP_VERSION}-session \
         php${PHP_VERSION}-tokenizer \
         php${PHP_VERSION}-ctype \
         php${PHP_VERSION}-filter \
-        php${PHP_VERSION}-pcre \
-        php${PHP_VERSION}-spl \
-        php${PHP_VERSION}-reflection \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
