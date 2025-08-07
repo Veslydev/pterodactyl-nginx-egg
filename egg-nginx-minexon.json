@@ -10,7 +10,7 @@
     "description": "Pterodactyl Nginx Egg\r\n\r\nThe Pterodactyl Nginx Egg is a web server solution for Pterodactyl, featuring Nginx, PHP, Git support, Cloudflare Tunnel integration, composer and optional WordPress installation. It supports AMD64 & ARM64 architectures and allows users to choose their preferred PHP version (8.0 \u2013 8.4).\r\nKey Features:\r\n\r\n\u2705 Supports multiple PHP versions\r\n\u2705 Git integration for automatic deployment\r\n\u2705 Cloudflare Tunnel support for secure remote access\r\n\u2705 Optional WordPress setup\r\n\u2705 HTTPS configuration support\r\n\u2705 Automatic updates for Git repositories",
     "features": null,
     "docker_images": {
-        "7.4 Yolk": "ghcr.io\/Veslydev\/yolkcuk:7.4-latest"
+        "7.4 Yolk": "ghcr.io\/veslydev\/yolkcuk:7.4-latest"
     },
     "file_denylist": [],
     "startup": ".\/start-modules.sh",
@@ -52,7 +52,7 @@
             "name": "PHP Version",
             "description": "Select the correct PHP version! See the tag behind the Docker image.  \r\nExample: Selected image (ghcr.io\/Veslydev\/nginx_php:8.4)\r\nEnter in the field: 8.4",
             "env_variable": "PHP_VERSION",
-            "default_value": "",
+            "default_value": "7.4",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:3",
